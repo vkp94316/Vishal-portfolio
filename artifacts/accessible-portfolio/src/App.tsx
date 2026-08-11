@@ -1,4 +1,4 @@
-import { type FormEvent, type ReactNode, useEffect, useState } from 'react';
+import { type FormEvent, type ReactNode, useEffect, useRef, useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ErrorBoundary } from '@/components/error-boundary';
 import { Toaster } from '@/components/ui/toaster';
@@ -66,9 +66,17 @@ function Shell({ children }: { children: ReactNode }) {
     { href: '/about', label: 'About' },
     { href: '/contact', label: 'Contact' },
   ];
+  useEffect(() => {
+    if (!menuOpen) return;
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setMenuOpen(false);
+    };
+    window.addEventListener('keydown', closeOnEscape);
+    return () => window.removeEventListener('keydown', closeOnEscape);
+  }, [menuOpen]);
   return (
     <div className="min-h-[100dvh]">
-      <a className="skip-link" href="#main-content">Skip to content</a>
+      <a className="skip-link" href="#main-content">Skip to main content</a>
       <header className="site-header">
         <div className="page-wrap site-nav">
           <Link href="/" className="brand" data-testid="link-brand" onClick={() => setMenuOpen(false)}>
@@ -276,26 +284,41 @@ function About() {
 }
 
 function Contact() {
-  const [values, setValues] = useState({ name: '', email: '', message: '' });
+  const [values, setValues] = useState({ name: '', email: '', subject: '', message: '' });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [sent, setSent] = useState(false);
+  const [submitAttempted, setSubmitAttempted] = useState(false);
+  const firstErrorRef = useRef<HTMLInputElement | HTMLTextAreaElement | null>(null);
   const validate = () => {
     const next: Record<string, string> = {};
     if (!values.name.trim()) next.name = 'Please tell me your name.';
     if (!values.email.trim()) next.email = 'Please add your email address.';
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) next.email = 'That email address doesn’t look quite right.';
+    if (!values.subject.trim()) next.subject = 'Please add a subject for your note.';
     if (!values.message.trim()) next.message = 'A sentence or two is plenty to start.';
     setErrors(next);
+    if (Object.keys(next).length > 0) {
+      const firstError = ['name', 'email', 'subject', 'message'].find((field) => next[field]);
+      if (firstError) {
+        window.requestAnimationFrame(() => {
+          firstErrorRef.current = document.getElementById(firstError) as HTMLInputElement | HTMLTextAreaElement | null;
+          firstErrorRef.current?.focus();
+        });
+      }
+    }
     return Object.keys(next).length === 0;
   };
   const submit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setSubmitAttempted(true);
     if (validate()) {
       setSent(true);
-      setValues({ name: '', email: '', message: '' });
+      setValues({ name: '', email: '', subject: '', message: '' });
+      setErrors({});
+      setSubmitAttempted(false);
     }
   };
-  const update = (field: 'name' | 'email' | 'message', value: string) => {
+  const update = (field: 'name' | 'email' | 'subject' | 'message', value: string) => {
     setSent(false);
     setValues((current) => ({ ...current, [field]: value }));
     if (errors[field]) setErrors((current) => ({ ...current, [field]: '' }));
@@ -320,22 +343,31 @@ function Contact() {
               </div>
             </div>
             <div className="form-card">
-              {sent && <div className="status-message" role="status" aria-live="polite">Thank you — your note is staged and ready. I’ll get back to you within a couple of working days.</div>}
+              <div className="sr-only" aria-live="polite" aria-atomic="true">
+                {sent ? 'Thank you. Your note has been sent. I’ll get back to you within a couple of working days.' : ''}
+                {submitAttempted && Object.keys(errors).length > 0 ? `${Object.keys(errors).length} form errors need your attention.` : ''}
+              </div>
+              {sent && <div className="status-message" role="status">Thank you — your note is staged and ready. I’ll get back to you within a couple of working days.</div>}
               <form onSubmit={submit} noValidate aria-describedby="form-note">
                 <p id="form-note" className="text-[hsl(var(--muted-foreground))] text-sm mb-6">Required fields are marked with <span aria-hidden="true">*</span>.</p>
                 <div className="field">
                   <label htmlFor="name">Your name <span aria-hidden="true">*</span></label>
-                  <input id="name" name="name" type="text" autoComplete="name" value={values.name} onChange={(event) => update('name', event.target.value)} aria-invalid={Boolean(errors.name)} aria-describedby={errors.name ? 'name-error' : undefined} data-testid="input-name" />
+                  <input id="name" name="name" type="text" autoComplete="name" required value={values.name} onChange={(event) => update('name', event.target.value)} aria-invalid={Boolean(errors.name)} aria-describedby={errors.name ? 'name-error' : undefined} ref={(node) => { firstErrorRef.current = errors.name ? node : firstErrorRef.current; }} data-testid="input-name" />
                   {errors.name && <p id="name-error" className="field-error" role="alert">{errors.name}</p>}
                 </div>
                 <div className="field">
                   <label htmlFor="email">Email address <span aria-hidden="true">*</span></label>
-                  <input id="email" name="email" type="email" autoComplete="email" value={values.email} onChange={(event) => update('email', event.target.value)} aria-invalid={Boolean(errors.email)} aria-describedby={errors.email ? 'email-error' : undefined} data-testid="input-email" />
+                  <input id="email" name="email" type="email" autoComplete="email" required value={values.email} onChange={(event) => update('email', event.target.value)} aria-invalid={Boolean(errors.email)} aria-describedby={errors.email ? 'email-error' : undefined} data-testid="input-email" />
                   {errors.email && <p id="email-error" className="field-error" role="alert">{errors.email}</p>}
                 </div>
                 <div className="field">
+                  <label htmlFor="subject">Subject <span aria-hidden="true">*</span></label>
+                  <input id="subject" name="subject" type="text" autoComplete="off" required value={values.subject} onChange={(event) => update('subject', event.target.value)} aria-invalid={Boolean(errors.subject)} aria-describedby={errors.subject ? 'subject-error' : undefined} data-testid="input-subject" />
+                  {errors.subject && <p id="subject-error" className="field-error" role="alert">{errors.subject}</p>}
+                </div>
+                <div className="field">
                   <label htmlFor="message">What are you thinking about? <span aria-hidden="true">*</span></label>
-                  <textarea id="message" name="message" autoComplete="off" value={values.message} onChange={(event) => update('message', event.target.value)} aria-invalid={Boolean(errors.message)} aria-describedby={errors.message ? 'message-error' : undefined} data-testid="input-message" />
+                  <textarea id="message" name="message" autoComplete="off" required value={values.message} onChange={(event) => update('message', event.target.value)} aria-invalid={Boolean(errors.message)} aria-describedby={errors.message ? 'message-error' : undefined} data-testid="input-message" />
                   {errors.message && <p id="message-error" className="field-error" role="alert">{errors.message}</p>}
                 </div>
                 <button type="submit" className="button-primary" data-testid="button-submit-contact">Send the note <span aria-hidden="true">↗</span></button>

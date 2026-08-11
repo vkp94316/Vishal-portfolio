@@ -180,7 +180,8 @@
 .field input, .field textarea { display: block; width: 100%; border: 1px solid hsl(var(--foreground) / .4); background: hsl(var(--background)); color: hsl(var(--foreground)); padding: .85rem .9rem; font: inherit; font-size: .9rem; }
 .field textarea { min-height: 145px; resize: vertical; }
 .field input:focus, .field textarea:focus { border-color: hsl(var(--primary)); outline: 3px solid hsl(var(--ring) / .25); outline-offset: 1px; }
-.field-error { color: hsl(3 62% 35%); font-size: .78rem; margin-top: .35rem; }
+.field-error { color: hsl(3 62% 35%); font-size: .78rem; margin-top: .35rem; font-weight: 600; }
+.field input[aria-invalid='true'], .field textarea[aria-invalid='true'] { border-color: hsl(3 62% 35%); }
 .status-message { padding: 1rem; border-left: 3px solid hsl(var(--primary)); background: hsl(var(--primary) / .1); margin-bottom: 1.2rem; font-size: .88rem; }
 .site-footer { margin-top: 5rem; padding-block: 2rem 2.5rem; border-top: 1px solid hsl(var(--foreground) / .25); }
 .footer-inner { display: flex; align-items: end; justify-content: space-between; gap: 2rem; }

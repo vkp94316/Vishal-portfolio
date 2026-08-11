@@ -1,0 +1,110 @@
+Improve the current portfolio website without completely changing its existing visual design.
+
+Requirements:
+
+1. Create a proper multi-page personal portfolio:
+   - index.html → Home
+   - work.html → Projects / Work
+   - about.html → About
+   - contact.html → Contact
+
+2. Use modern semantic HTML5 elements correctly:
+   - header
+   - nav
+   - main
+   - section
+   - article
+   - aside where appropriate
+   - footer
+
+3. Accessibility:
+   - Follow WCAG 2.2 AA guidelines.
+   - Add meaningful alt text to informative images.
+   - Use alt="" for decorative images.
+   - Add accessible labels to all form inputs.
+   - Ensure every interactive element is keyboard accessible.
+   - Add visible :focus states.
+   - Ensure logical heading hierarchy: one h1 per page, followed by h2/h3.
+   - Add a "Skip to main content" link.
+   - Use ARIA only where it is actually necessary.
+   - Add aria-label to navigation where useful.
+   - Ensure sufficient color contrast.
+   - Do not rely on color alone to communicate information.
+
+4. Navigation:
+   - Keep the existing header/navigation style.
+   - Navigation must work correctly between all pages.
+   - Add aria-current="page" to the active navigation link.
+   - Make the navigation fully keyboard/tab accessible.
+
+5. Contact page:
+   Create an accessible contact form containing:
+   - Full Name
+   - Email
+   - Subject
+   - Message
+   - Submit button
+
+   Requirements:
+   - Every input must have a proper <label>.
+   - Use appropriate input types.
+   - Add required validation where appropriate.
+   - Add autocomplete attributes where useful.
+   - Provide accessible error messages.
+   - Provide a clear success message after submission.
+   - Make the form completely keyboard accessible.
+   - Do not use placeholder text as the only label.
+
+6. SEO:
+   Add optimized unique metadata to every page:
+   - <title>
+   - meta description
+   - canonical URL
+   - Open Graph metadata
+   - Twitter Card metadata
+   - appropriate viewport meta tag
+   - language attribute on <html>
+
+7. Structured data:
+   Add valid JSON-LD structured data for the person/portfolio where appropriate.
+
+8. Images:
+   - Use descriptive alt text for meaningful images.
+   - Mark purely decorative images with empty alt attributes.
+   - Do not use unnecessary images.
+
+9. Performance:
+   - Use semantic, clean HTML.
+   - Avoid unnecessary JavaScript.
+   - Optimize images.
+   - Use lazy loading for below-the-fold images where appropriate.
+   - Respect prefers-reduced-motion.
+
+10. Responsive design:
+   - Make every page responsive for desktop, tablet and mobile.
+   - Preserve the current elegant portfolio visual style.
+   - Do not break the existing design.
+
+11. Accessibility testing:
+   Before finishing, check:
+   - keyboard navigation
+   - focus visibility
+   - heading hierarchy
+   - form labels
+   - image alt text
+   - link/button accessibility
+   - color contrast
+   - page titles
+   - meta descriptions
+   - semantic HTML
+
+12. Final goal:
+   The website should be structured so that Lighthouse Accessibility and SEO can achieve 100 where technically possible.
+
+IMPORTANT:
+- Do not unnecessarily rewrite the existing design.
+- Do not remove existing working features.
+- Keep the current visual identity and animations.
+- Use clean, maintainable HTML/CSS/JS.
+- Do not use excessive ARIA attributes when native HTML already provides the required accessibility.
+- After making changes, run/build the project and fix any errors or broken links.
