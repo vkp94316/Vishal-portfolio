@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Accessible Portfolio"
+description = "A multi-page personal portfolio website built with semantic HTML5, WCAG-conscious interaction patterns, accessible navigation, SEO-friendly metadata, and a keyboard-friendly contact form."
+version = "1.0.0"
+id = "artifacts/accessible-portfolio"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 24559
+
+[services.development]
+run = "pnpm --filter @workspace/accessible-portfolio run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/accessible-portfolio", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/accessible-portfolio/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "24559"
+BASE_PATH = "/"
