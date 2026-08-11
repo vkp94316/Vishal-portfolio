@@ -33,9 +33,11 @@ function Meta({ title, description, path, schema }: PageMeta) {
     setMeta('meta[property="og:description"]', description, 'property');
     setMeta('meta[property="og:url"]', `${siteUrl}${path}`, 'property');
     setMeta('meta[property="og:type"]', 'website', 'property');
+    setMeta('meta[property="og:site_name"]', 'Mara Vale', 'property');
     setMeta('meta[name="twitter:card"]', 'summary_large_image');
     setMeta('meta[name="twitter:title"]', title);
     setMeta('meta[name="twitter:description"]', description);
+    setMeta('meta[name="twitter:url"]', `${siteUrl}${path}`);
     let canonical = document.head.querySelector<HTMLLinkElement>('link[rel="canonical"]');
     if (!canonical) {
       canonical = document.createElement('link');
@@ -60,34 +62,43 @@ function Meta({ title, description, path, schema }: PageMeta) {
 function Shell({ children }: { children: ReactNode }) {
   const [location] = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
+  const menuButtonRef = useRef<HTMLButtonElement | null>(null);
   const links = [
     { href: '/', label: 'Home' },
     { href: '/work', label: 'Work' },
     { href: '/about', label: 'About' },
     { href: '/contact', label: 'Contact' },
   ];
+  const closeMenu = (restoreFocus = false) => {
+    setMenuOpen(false);
+    if (restoreFocus) {
+      window.requestAnimationFrame(() => menuButtonRef.current?.focus());
+    }
+  };
   useEffect(() => {
     if (!menuOpen) return;
     const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setMenuOpen(false);
+      if (event.key === 'Escape') closeMenu(true);
     };
     window.addEventListener('keydown', closeOnEscape);
     return () => window.removeEventListener('keydown', closeOnEscape);
-  }, [menuOpen]);
+  });
   return (
     <div className="min-h-[100dvh]">
       <a className="skip-link" href="#main-content">Skip to main content</a>
       <header className="site-header">
         <div className="page-wrap site-nav">
-          <Link href="/" className="brand" data-testid="link-brand" onClick={() => setMenuOpen(false)}>
+          <Link href="/" className="brand" data-testid="link-brand" onClick={() => closeMenu()}>
             <span className="brand-mark" aria-hidden="true">M</span>
             <span>Mara Vale</span>
           </Link>
           <button
             type="button"
             className="menu-button"
+            ref={menuButtonRef}
             aria-expanded={menuOpen}
             aria-controls="primary-navigation"
+            aria-label={menuOpen ? 'Close primary navigation' : 'Open primary navigation'}
             data-testid="button-menu"
             onClick={() => setMenuOpen((open) => !open)}
           >
@@ -101,7 +112,7 @@ function Shell({ children }: { children: ReactNode }) {
                 className="nav-link"
                 aria-current={location === link.href ? 'page' : undefined}
                 data-testid={`link-nav-${link.label.toLowerCase()}`}
-                onClick={() => setMenuOpen(false)}
+                onClick={() => closeMenu(menuOpen)}
               >
                 {link.label}
               </Link>
@@ -333,7 +344,7 @@ function Contact() {
         </section>
         <section className="page-wrap section-space" aria-labelledby="form-title">
           <div className="contact-layout">
-            <div className="contact-aside">
+            <aside className="contact-aside" aria-labelledby="form-title">
               <h2 id="form-title" className="display-heading text-5xl">Let’s see<br />what it’s made of.</h2>
               <p>Tell me what you’re working on, what feels stuck, or what you’re hoping to make more useful. No polished brief required.</p>
               <div className="contact-links" aria-label="Alternate contact methods">
@@ -341,7 +352,7 @@ function Contact() {
                 <a className="contact-link" href="https://www.linkedin.com" target="_blank" rel="noreferrer" data-testid="link-linkedin">LinkedIn <span aria-hidden="true">↗</span></a>
                 <a className="contact-link" href="https://github.com" target="_blank" rel="noreferrer" data-testid="link-github">GitHub <span aria-hidden="true">↗</span></a>
               </div>
-            </div>
+            </aside>
             <div className="form-card">
               <div className="sr-only" aria-live="polite" aria-atomic="true">
                 {sent ? 'Thank you. Your note has been sent. I’ll get back to you within a couple of working days.' : ''}
