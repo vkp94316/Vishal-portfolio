@@ -7,7 +7,7 @@ import NotFound from '@/pages/not-found';
 import { Link, Route, Switch, Router as WouterRouter, useLocation } from 'wouter';
 
 const queryClient = new QueryClient();
-const siteUrl = 'https://maravale.design';
+const siteUrl = typeof window !== 'undefined' ? window.location.origin : '';
 
 type PageMeta = {
   title: string;
@@ -33,7 +33,7 @@ function Meta({ title, description, path, schema }: PageMeta) {
     setMeta('meta[property="og:description"]', description, 'property');
     setMeta('meta[property="og:url"]', `${siteUrl}${path}`, 'property');
     setMeta('meta[property="og:type"]', 'website', 'property');
-    setMeta('meta[property="og:site_name"]', 'Mara Vale', 'property');
+    setMeta('meta[property="og:site_name"]', 'Vishal Kumar Pandey', 'property');
     setMeta('meta[name="twitter:card"]', 'summary_large_image');
     setMeta('meta[name="twitter:title"]', title);
     setMeta('meta[name="twitter:description"]', description);
@@ -65,7 +65,7 @@ function Shell({ children }: { children: ReactNode }) {
   const menuButtonRef = useRef<HTMLButtonElement | null>(null);
   const links = [
     { href: '/', label: 'Home' },
-    { href: '/work', label: 'Work' },
+    { href: '/work', label: 'Projects' },
     { href: '/about', label: 'About' },
     { href: '/contact', label: 'Contact' },
   ];
@@ -90,7 +90,7 @@ function Shell({ children }: { children: ReactNode }) {
         <div className="page-wrap site-nav">
           <Link href="/" className="brand" data-testid="link-brand" onClick={() => closeMenu()}>
             <span className="brand-mark" aria-hidden="true">M</span>
-            <span>Mara Vale</span>
+            <span>Vishal Kumar Pandey</span>
           </Link>
           <button
             type="button"
@@ -118,15 +118,15 @@ function Shell({ children }: { children: ReactNode }) {
               </Link>
             ))}
           </nav>
-          <Link href="/contact" className="button-primary hidden sm:inline-flex" data-testid="link-header-contact">Start a conversation <span aria-hidden="true">↗</span></Link>
+          <Link href="/contact" className="button-primary hidden sm:inline-flex" data-testid="link-header-contact">Get in touch <span aria-hidden="true">↗</span></Link>
         </div>
       </header>
       {children}
       <footer className="site-footer">
         <div className="page-wrap footer-inner">
           <div>
-            <p className="eyebrow">Mara Vale — Design Engineer</p>
-            <p className="footer-note">Independent practice based between systems and stories.<br />Available for a considered few collaborations.</p>
+            <p className="eyebrow">Vishal Kumar Pandey — BCA Student &amp; Developer</p>
+            <p className="footer-note">Building practical web solutions with a focus on clear interfaces and useful technology.</p>
           </div>
           <div className="footer-mark" aria-hidden="true">mv<span style={{ color: 'hsl(var(--primary))' }}>.</span></div>
         </div>
@@ -138,68 +138,58 @@ function Shell({ children }: { children: ReactNode }) {
 const personSchema = {
   '@context': 'https://schema.org',
   '@type': 'Person',
-  name: 'Mara Vale',
-  jobTitle: 'Design Engineer',
+  name: 'Vishal Kumar Pandey',
+  jobTitle: 'BCA Student & Developer',
   url: siteUrl,
-  sameAs: ['https://www.linkedin.com', 'https://github.com'],
-  knowsAbout: ['Product design', 'Front-end engineering', 'Design systems', 'Research'],
+  description: 'Bachelor of Computer Applications student and developer focused on web development and practical software solutions.',
+  knowsAbout: ['Web Development', 'HTML', 'CSS', 'JavaScript', 'SQL', 'MySQL', 'Node.js', 'AI/API Integration'],
 };
 
 function Home() {
   return (
     <>
-      <Meta title="Mara Vale — Design Engineer" description="Mara Vale is an independent design engineer turning complex systems into clear, humane digital experiences." path="/" schema={personSchema} />
+      <Meta title="Vishal Kumar Pandey — BCA Student & Developer" description="Vishal Kumar Pandey is a Bachelor of Computer Applications student focused on web development, JavaScript, SQL, Node.js, and AI/API integration." path="/" schema={personSchema} />
       <main id="main-content">
         <section className="page-wrap section-space" aria-labelledby="home-title">
           <div className="relative">
-            <p className="eyebrow reveal">Independent design engineer / London + everywhere</p>
-            <h1 id="home-title" className="display-heading hero-title text-balance reveal reveal-delay-1">I make difficult things feel <em>obvious.</em></h1>
+            <p className="eyebrow reveal">BCA student &amp; developer / Web development</p>
+            <h1 id="home-title" className="display-heading hero-title text-balance reveal reveal-delay-1">I build practical <em>web solutions.</em></h1>
             <div className="hero-mark" aria-hidden="true" />
             <div className="hero-rail reveal reveal-delay-2">
-              <p className="max-w-[500px] text-lg leading-relaxed text-[hsl(var(--muted-foreground))]">I partner with thoughtful teams to shape digital products, systems, and identities that hold up under real life — not just a launch-day screenshot.</p>
-              <Link href="/work" className="button-outline" data-testid="link-home-work">See selected work <span aria-hidden="true">↓</span></Link>
+              <p className="max-w-[500px] text-lg leading-relaxed text-[hsl(var(--muted-foreground))]">I am studying computer applications and building responsive, user-friendly projects with HTML, CSS, JavaScript, SQL, Node.js, and AI/API integrations.</p>
+              <Link href="/work" className="button-outline" data-testid="link-home-work">View my projects <span aria-hidden="true">↓</span></Link>
             </div>
           </div>
         </section>
 
         <section className="page-wrap section-space pt-0" aria-labelledby="featured-title">
           <div className="flex items-end justify-between gap-5 mb-8">
-            <div><p className="eyebrow section-kicker">A small selection</p><h2 id="featured-title" className="display-heading text-5xl mt-4">Work with a pulse.</h2></div>
-            <Link href="/work" className="font-mono text-xs underline underline-offset-4 hidden sm:block" data-testid="link-home-all-work">View all projects ↗</Link>
+            <div><p className="eyebrow section-kicker">Selected coursework</p><h2 id="featured-title" className="display-heading text-5xl mt-4">Projects built to be useful.</h2></div>
+            <Link href="/work" className="font-mono text-xs underline underline-offset-4 hidden sm:block" data-testid="link-home-all-work">View project details ↗</Link>
           </div>
           <div className="work-grid">
-            <Link href="/work#field-notes" className="work-card reveal" data-testid="card-work-field-notes">
-              <div className="work-card-top"><span className="eyebrow">01 / Product + systems</span><span className="eyebrow">2024</span></div>
+            <Link href="/work#gym-membership-management" className="work-card reveal" data-testid="card-work-gym-membership">
+              <div className="work-card-top"><span className="eyebrow">01 / Web development</span><span className="eyebrow">Coursework</span></div>
               <div className="card-art art-window" aria-hidden="true" />
-              <div className="work-card-bottom"><h3 className="card-title">Field<br />Notes</h3><span className="arrow" aria-hidden="true">↗</span></div>
-            </Link>
-            <Link href="/work#common-thread" className="work-card reveal reveal-delay-1" data-testid="card-work-common-thread">
-              <div className="work-card-top"><span className="eyebrow">02 / Identity + web</span><span className="eyebrow">2023</span></div>
-              <div className="card-art art-spiral" aria-hidden="true" />
-              <div className="work-card-bottom"><h3 className="card-title">Common<br />Thread</h3><span className="arrow" aria-hidden="true">↗</span></div>
-            </Link>
-            <Link href="/work#civic-table" className="work-card reveal reveal-delay-2" data-testid="card-work-civic-table">
-              <div className="work-card-top"><span className="eyebrow">03 / Service design</span><span className="eyebrow">2022—24</span></div>
-              <div className="card-art art-strata" aria-hidden="true" />
-              <div className="work-card-bottom"><h3 className="card-title">Civic<br />Table</h3><span className="arrow" aria-hidden="true">↗</span></div>
+              <div className="work-card-bottom"><h3 className="card-title">Gym<br />Membership</h3><span className="arrow" aria-hidden="true">↗</span></div>
             </Link>
           </div>
         </section>
 
         <section className="page-wrap section-space" aria-labelledby="approach-title">
           <div className="split-section">
-            <div><p className="eyebrow section-kicker">The throughline</p><h2 id="approach-title" className="display-heading display-title mt-5">Clarity is a form of care.</h2></div>
+            <div><p className="eyebrow section-kicker">My focus</p><h2 id="approach-title" className="display-heading display-title mt-5">Learning by building useful things.</h2></div>
             <div>
-              <p className="text-2xl leading-snug max-w-2xl">The best interfaces do more than work. They give people their bearings. My practice sits in the useful tension between a sharp point of view and a deep respect for the person on the other side of the screen.</p>
-              <Link href="/about" className="button-outline mt-8" data-testid="link-home-about">More about the practice <span aria-hidden="true">↗</span></Link>
+              <p className="text-2xl leading-snug max-w-2xl">I enjoy turning requirements into clear interfaces and reliable functionality. My learning focuses on strong web fundamentals, practical databases, server-side development, and responsible use of APIs.</p>
+              <Link href="/about" className="button-outline mt-8" data-testid="link-home-about">More about me <span aria-hidden="true">↗</span></Link>
             </div>
           </div>
         </section>
         <section className="page-wrap section-space pt-0" aria-label="Invitation">
           <div className="studio-grid p-8 sm:p-16 relative overflow-hidden">
-            <p className="eyebrow">Have a knot worth untangling?</p>
-            <h2 className="display-heading text-6xl sm:text-8xl max-w-3xl mt-6">Let’s make<br /><em>good</em> sense.</h2>
-            <Link href="/contact" className="button-primary mt-8" data-testid="link-home-contact">Tell me about it <span aria-hidden="true">↗</span></Link>
+            <p className="eyebrow">Have a project idea?</p>
+            <h2 className="display-heading text-6xl sm:text-8xl max-w-3xl mt-6">Let’s build<br /><em>something useful.</em></h2>
+            <Link href="/contact" className="button-primary mt-8" data-testid="link-home-contact">Contact me <span aria-hidden="true">↗</span></Link>
           </div>
         </section>
       </main>
