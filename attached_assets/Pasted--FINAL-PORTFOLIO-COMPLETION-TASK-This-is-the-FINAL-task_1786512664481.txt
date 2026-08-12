@@ -1,0 +1,498 @@
+# FINAL PORTFOLIO COMPLETION TASK
+
+This is the FINAL task for my portfolio. Carefully inspect the entire existing project first, then make all required changes in one pass.
+
+## VERY IMPORTANT RULES
+
+* Do NOT redesign the website from scratch.
+* Do NOT change the existing visual identity, layout, typography, colors, animations, spacing, or overall style unless an actual accessibility issue requires it.
+* Preserve the existing design wherever possible.
+* Do NOT remove any working feature.
+* Do NOT add unnecessary libraries or dependencies.
+* Do NOT add TruthLens AI or any other project.
+* The ONLY project that should appear in the portfolio is:
+  **Gym Membership Management System**
+* Do NOT invent jobs, internships, companies, clients, awards, certificates, achievements, phone numbers, email addresses, social media accounts, or other personal information.
+* Do NOT claim that the Gym Membership Management System has a backend/database if it currently does not.
+* Use accurate information only.
+* Make all required changes now and do not stop after partial implementation.
+* After making changes, perform a complete final verification.
+
+---
+
+# 1. PERSONAL IDENTITY
+
+Use the following information throughout the portfolio:
+
+Name:
+Vishal Kumar Pandey
+
+Role:
+BCA Student & Developer
+
+Education:
+Bachelor of Computer Applications (BCA)
+
+Primary interests:
+
+* Web Development
+* HTML
+* CSS
+* JavaScript
+* Python
+* SQL / MySQL
+* React
+* Node.js
+* REST APIs
+* AI/API Integration
+* Git & GitHub
+
+Keep the language professional, simple, and suitable for a BCA student/developer.
+
+---
+
+# 2. HOME PAGE
+
+Keep the existing Home page design.
+
+Replace any remaining template/demo identity with:
+
+Eyebrow:
+"BCA STUDENT & DEVELOPER / WEB DEVELOPMENT"
+
+Main heading:
+"I build practical web solutions."
+
+Supporting text:
+"I am a BCA student and aspiring software developer who enjoys building responsive, user-friendly web applications and learning through practical projects."
+
+Primary button:
+"View My Project"
+
+The button must correctly navigate to the Projects/Work page.
+
+Do not use any designer/template identity such as:
+
+* Mara
+* Mara Vale
+* Independent Design Engineer
+* Designer
+* Design Engineer
+* London + Everywhere
+* Design practice
+* Client work
+
+---
+
+# 3. PROJECTS / WORK PAGE
+
+Keep the existing Projects/Work page design.
+
+There must be ONLY ONE project on this page.
+
+Remove every other demo/template project.
+
+Project:
+
+## Gym Membership Management System
+
+Description:
+
+"A responsive web application concept designed to make gym membership management easier by organizing membership plans, member information, attendance, and fitness-related features in one user-friendly interface."
+
+Features:
+
+* Membership plans
+* Member information
+* Attendance management
+* BMI Calculator
+* Responsive user interface
+* User-friendly navigation
+
+Technologies:
+
+* HTML
+* CSS
+* JavaScript
+* Responsive Web Design
+
+IMPORTANT:
+
+Do NOT mention TruthLens AI anywhere.
+
+Do NOT create fake GitHub links or live demo links.
+
+If the existing project card contains an unavailable/fake URL, remove it or replace it with a non-misleading element.
+
+Do not claim backend, database, authentication, API, or online payment functionality unless it already exists in the current project.
+
+---
+
+# 4. ABOUT PAGE
+
+Replace ALL remaining designer/template content.
+
+Use:
+
+Eyebrow:
+"ABOUT ME"
+
+Main heading:
+"Learning, building, and improving one project at a time."
+
+Paragraph 1:
+
+"Hi, I'm Vishal Kumar Pandey, a BCA student and aspiring software developer. I enjoy building practical web applications and exploring technologies that help turn ideas into useful digital solutions."
+
+Paragraph 2:
+
+"My current interests include web development, Python, JavaScript, databases, and modern application development. I focus on learning by building projects and improving my problem-solving skills."
+
+Skills heading:
+
+"TECHNICAL SKILLS"
+
+Skills:
+
+* HTML
+* CSS
+* JavaScript
+* Python
+* SQL / MySQL
+* React
+* Node.js
+* REST APIs
+* Git & GitHub
+
+Do not describe me as a professional designer or design engineer.
+
+Do not mention London.
+
+Do not mention fake clients or companies.
+
+---
+
+# 5. CONTACT PAGE
+
+Keep the existing Contact page design and accessible form.
+
+Use:
+
+Eyebrow:
+"GET IN TOUCH"
+
+Heading:
+"Let's build something useful."
+
+Description:
+
+"If you have a project idea, internship opportunity, or simply want to connect, feel free to send me a message."
+
+Keep the form fields:
+
+* Full Name
+* Email
+* Subject
+* Message
+* Submit button
+
+Accessibility requirements:
+
+* Every input must have a visible, properly associated label.
+* Use appropriate input types.
+* Use required validation where appropriate.
+* Use autocomplete attributes where useful.
+* Keep accessible error messages.
+* Keep accessible success messages.
+* Keep screen-reader announcements.
+* Keep keyboard navigation.
+* Keep visible focus states.
+* Do not use placeholder text as the only label.
+* Do not invent my email address, phone number, address, or social media profiles.
+
+---
+
+# 6. HEADER AND NAVIGATION
+
+Keep the current header design.
+
+Make sure these navigation items work correctly:
+
+Home → /
+Projects/Work → existing project route
+About → /about
+Contact → /contact
+
+Requirements:
+
+* No broken navigation links.
+* Active page must use aria-current="page".
+* All navigation links must be keyboard accessible.
+* Buttons must perform actions.
+* Links must be used for navigation.
+* The Home CTA must open the Projects/Work page.
+* Contact CTA must open the Contact page.
+* Do not unnecessarily change existing routes.
+
+---
+
+# 7. SEMANTIC HTML5
+
+Inspect the complete project and use appropriate semantic HTML5 elements:
+
+<header>
+<nav>
+<main>
+<section>
+<article>
+<aside> where appropriate
+<footer>
+
+Use semantic elements instead of unnecessary generic div elements where practical.
+
+Make sure:
+
+* Each page has one logical h1.
+* Heading hierarchy is logical: h1 → h2 → h3.
+* Navigation uses nav.
+* Main content uses main.
+* Footer uses footer.
+* Buttons are used for actions.
+* Links are used for navigation.
+* Images have appropriate alt text.
+* Decorative images use alt="".
+
+Use ARIA only where necessary.
+
+Do not add redundant ARIA roles to native semantic HTML elements.
+
+---
+
+# 8. ACCESSIBILITY / WCAG
+
+Perform a complete accessibility review and fix actual issues.
+
+Check:
+
+* Keyboard navigation
+* Tab order
+* Visible focus indicators
+* Skip-to-main-content link
+* Form labels
+* Form validation
+* Accessible error messages
+* Accessible success messages
+* Screen-reader announcements
+* Heading hierarchy
+* Link names
+* Button names
+* Image alt text
+* Color contrast
+* Reduced motion support
+* Mobile navigation
+* Escape-key behavior where appropriate
+
+Preserve all existing accessibility improvements.
+
+The website should be structured to target a 100 Lighthouse Accessibility score.
+
+Do not claim a score of 100 unless an actual Lighthouse audit confirms it.
+
+---
+
+# 9. SEO
+
+Verify every page has:
+
+* Unique page title
+* Unique meta description
+* viewport meta tag
+* lang attribute
+* canonical URL
+* Open Graph metadata
+* Twitter metadata where appropriate
+* Proper heading structure
+* Relevant SEO content
+
+Update structured data / JSON-LD so that it represents:
+
+Vishal Kumar Pandey
+BCA Student & Developer
+Personal Portfolio
+
+Do NOT leave structured data referring to Mara Vale, designer, design engineer, or template content.
+
+---
+
+# 10. REMOVE ALL TEMPLATE CONTENT
+
+Search the ENTIRE project, including source files and components.
+
+Find and remove or replace all remaining template/demo content.
+
+Search for terms such as:
+
+"Mara"
+"Mara Vale"
+"Independent Design Engineer"
+"Design Engineer"
+"Designer"
+"London + Everywhere"
+"Selected Work"
+"Client Work"
+"Design Practice"
+"2022–24"
+"Hi, I'm Mara"
+
+Also look for other text clearly belonging to the original template.
+
+IMPORTANT:
+
+Do NOT blindly delete legitimate technical terms.
+
+Only remove content that belongs to the original demo/template.
+
+After editing, search the entire project again and confirm that no inappropriate template identity remains.
+
+---
+
+# 11. ONLY ONE PROJECT
+
+This is extremely important.
+
+The portfolio must contain ONLY:
+
+Gym Membership Management System
+
+Do NOT add:
+
+TruthLens AI
+Fake News Detector
+Other projects
+Demo projects
+Fake projects
+
+Remove any other project cards/content from the visible portfolio.
+
+---
+
+# 12. RESPONSIVE DESIGN
+
+Preserve the current responsive design.
+
+Verify:
+
+Desktop:
+
+* Layout works correctly
+* Navigation works
+* Text does not overflow
+
+Tablet:
+
+* Layout remains usable
+* Navigation remains accessible
+
+Mobile:
+
+* No horizontal scrolling
+* Navigation works
+* Buttons are usable
+* Contact form works
+* Text remains readable
+* Keyboard/focus behavior remains accessible
+
+Do not redesign the mobile layout unnecessarily.
+
+---
+
+# 13. PERFORMANCE
+
+Keep the website lightweight.
+
+Check:
+
+* No unnecessary dependencies
+* Images are appropriately optimized
+* Below-the-fold images use lazy loading where appropriate
+* No unnecessary JavaScript
+* Respect prefers-reduced-motion
+
+Do not introduce unnecessary packages.
+
+---
+
+# 14. FINAL BUILD AND TEST
+
+After completing ALL changes:
+
+1. Run the production build.
+2. Fix every actual build error.
+3. Check the browser console for application errors.
+4. Verify all pages load successfully.
+5. Verify all navigation links.
+6. Verify the contact form.
+7. Verify keyboard navigation.
+8. Verify semantic HTML structure.
+9. Verify accessibility attributes.
+10. Verify SEO metadata.
+11. Verify JSON-LD.
+12. Search the entire project for remaining template content.
+13. Confirm ONLY Gym Membership Management System appears as a project.
+14. Confirm TruthLens AI does NOT appear anywhere in the portfolio.
+15. Confirm the final website is responsive.
+
+Check these routes:
+
+/
+/work
+/about
+/contact
+
+If the project uses different existing routes, preserve those working routes rather than unnecessarily changing the routing system.
+
+---
+
+# 15. FINAL QUALITY CHECK
+
+Before finishing, mentally review the website as if it were being submitted for the assignment:
+
+"HTML5 Semantic Structure & Accessibility"
+
+It must clearly demonstrate:
+
+* Semantic HTML5
+* Accessible navigation
+* ARIA where appropriate
+* Keyboard accessibility
+* Accessible contact form
+* Proper labels
+* Focus states
+* Image alt text
+* Logical heading hierarchy
+* SEO-friendly metadata
+* Responsive design
+* Clean project structure
+* Professional BCA student portfolio
+
+Do not make additional design changes after this verification.
+
+---
+
+# FINAL RESPONSE
+
+When everything is complete, provide a concise report containing ONLY:
+
+1. Pages verified
+2. Semantic HTML status
+3. Accessibility status
+4. SEO status
+5. Contact form status
+6. Navigation status
+7. Template/demo content removal status
+8. Project status — confirm ONLY Gym Membership Management System is included
+9. TruthLens AI status — confirm it is NOT included
+10. Production build status
+11. Any remaining issue, if any
+
+If there is a remaining issue, clearly state exactly what it is and why it could not be fixed.

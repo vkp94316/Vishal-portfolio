@@ -1,0 +1,371 @@
+FINAL TASK — COMPLETE AND VERIFY THE PORTFOLIO
+
+This is the final update. Carefully inspect the entire current portfolio before making changes.
+
+IMPORTANT:
+- Do NOT redesign the website.
+- Do NOT change the existing visual style, typography, colors, spacing, animations, or overall layout unless required to fix an actual accessibility issue.
+- Do NOT remove any working feature.
+- Do NOT create fake information.
+- Do NOT invent experience, clients, companies, awards, phone numbers, email addresses, social media accounts, or achievements.
+- Preserve all existing accessibility improvements.
+- Make the website look like a professional BCA student/developer portfolio, not a designer portfolio.
+- Make exact, targeted edits and verify the result after editing.
+
+==================================================
+1. PERSONAL INFORMATION
+==================================================
+
+Name:
+Vishal Kumar Pandey
+
+Role:
+BCA Student & Developer
+
+Education:
+Bachelor of Computer Applications (BCA)
+
+Main interests:
+Web Development, Software Development, Python, JavaScript, SQL/MySQL, React, Node.js, REST APIs, AI/API Integration
+
+Use professional and simple language suitable for a BCA student.
+
+==================================================
+2. HOME PAGE
+==================================================
+
+Keep the current design.
+
+Use content similar to:
+
+Eyebrow:
+"BCA STUDENT & DEVELOPER / WEB DEVELOPMENT"
+
+Main heading:
+"I build practical web solutions."
+
+Supporting text:
+"I am studying computer applications and building responsive, user-friendly projects with HTML, CSS, JavaScript, Python, SQL, Node.js, and AI/API integrations."
+
+Primary CTA:
+"View my projects"
+
+Make sure the CTA correctly opens the Projects/Work page.
+
+Do not use:
+- Mara Vale
+- Mara
+- Independent Design Engineer
+- London + Everywhere
+- Designer
+- Design Engineer
+- Client work
+- Fake company names
+
+==================================================
+3. PROJECTS / WORK PAGE
+==================================================
+
+The navigation label may be "Projects" and the route may be /work. Keep the current working route and navigation.
+
+Replace ALL template/demo project content.
+
+Heading:
+"Projects built with code, curiosity, and practical problem-solving."
+
+Description:
+"I build practical web and AI-powered applications to strengthen my development skills and solve real-world problems."
+
+PROJECT 1:
+
+Title:
+"TruthLens AI"
+
+Description:
+"An AI-powered Chrome Extension that analyzes user-provided news headlines and articles using the Google Gemini API and provides an AI-generated verdict, confidence score, and brief explanation."
+
+Technologies:
+"Python, Flask, JavaScript, Chrome Extension API, Gemini API, REST API, Render"
+
+PROJECT 2:
+
+Title:
+"Gym Membership Management System"
+
+Description:
+"A responsive web application for managing gym memberships, membership plans, attendance, and fitness-related features such as a BMI calculator."
+
+Technologies:
+"HTML, CSS, JavaScript, Responsive Web Design"
+
+Do NOT claim that the Gym Membership Management System has a backend if it currently does not.
+
+If the existing project cards contain links, make sure they are valid.
+Do not create fake GitHub or live-demo URLs.
+If a URL is not available, use a non-misleading label or omit the link.
+
+==================================================
+4. ABOUT PAGE
+==================================================
+
+Remove all designer/template content.
+
+Use:
+
+Eyebrow:
+"ABOUT ME"
+
+Main heading:
+"Learning, building, and improving one project at a time."
+
+Paragraph 1:
+"Hi, I'm Vishal Kumar Pandey, a BCA student and aspiring software developer. I enjoy building practical web applications and exploring technologies that help turn ideas into useful digital solutions."
+
+Paragraph 2:
+"My current interests include web development, Python, JavaScript, databases, APIs, AI integration, and modern application development. I focus on learning by building projects and improving my problem-solving skills."
+
+Skills heading:
+"TECHNICAL SKILLS"
+
+Skills:
+- HTML
+- CSS
+- JavaScript
+- Python
+- SQL / MySQL
+- React
+- Node.js
+- REST APIs
+- AI / API Integration
+- Git & GitHub
+
+Do not describe me as:
+- Designer
+- Independent Design Engineer
+- London-based
+- Client-focused designer
+- Professional design engineer
+
+==================================================
+5. CONTACT PAGE
+==================================================
+
+Keep the existing accessible contact form.
+
+Change the introductory content to:
+
+Eyebrow:
+"GET IN TOUCH"
+
+Heading:
+"Let's build something useful."
+
+Description:
+"If you have a project idea, internship opportunity, or simply want to connect, feel free to send me a message."
+
+Keep these fields:
+- Full Name
+- Email
+- Subject
+- Message
+- Submit button
+
+Accessibility requirements:
+- Every field must have a proper label.
+- Required fields must remain properly marked.
+- Use appropriate input types.
+- Use autocomplete where appropriate.
+- Keep accessible validation.
+- Keep accessible error messages.
+- Keep success feedback.
+- Keep keyboard navigation.
+- Keep visible focus states.
+- Do not use placeholder text as the only label.
+- Keep screen-reader announcements.
+
+Do NOT invent my personal email, phone number, address, or social media profiles.
+
+==================================================
+6. HEADER AND NAVIGATION
+==================================================
+
+Keep the current header design.
+
+Navigation must correctly work:
+
+Home → /
+Projects → /work
+About → /about
+Contact → /contact
+
+Make sure:
+- No broken links exist.
+- The current page has aria-current="page".
+- All navigation links are keyboard accessible.
+- The "Get in touch" button/link correctly opens the Contact page.
+- The Home CTA correctly opens Projects.
+
+Do not change working routes unnecessarily.
+
+==================================================
+7. SEMANTIC HTML5
+==================================================
+
+Inspect the complete application and ensure appropriate use of:
+
+<header>
+<nav>
+<main>
+<section>
+<article>
+<aside> where appropriate
+<footer>
+
+Use semantic HTML instead of unnecessary div elements where practical.
+
+Ensure:
+- One logical h1 per page.
+- Correct h1 → h2 → h3 hierarchy.
+- Buttons are used for actions.
+- Links are used for navigation.
+- Images have appropriate alt text.
+- Decorative images use alt="".
+
+Use ARIA only when necessary and do not add redundant ARIA roles to native semantic HTML.
+
+==================================================
+8. ACCESSIBILITY / WCAG
+==================================================
+
+Perform a final accessibility review.
+
+Check and fix actual issues involving:
+
+- Keyboard navigation
+- Tab order
+- Visible focus states
+- Skip-to-main-content link
+- Form labels
+- Form validation
+- Error messages
+- Success messages
+- Screen-reader announcements
+- Heading hierarchy
+- Link names
+- Button names
+- Image alt text
+- Color contrast
+- Reduced motion
+- Mobile navigation
+- Escape-key behavior where applicable
+
+Do not remove existing accessibility features.
+
+==================================================
+9. SEO
+==================================================
+
+Verify every page has:
+
+- Unique <title>
+- Unique meta description
+- viewport meta tag
+- lang attribute
+- canonical URL
+- Open Graph metadata
+- Twitter metadata where appropriate
+- Appropriate heading structure
+- Relevant page content
+
+Use accurate portfolio information.
+
+Do not use fake SEO information.
+
+Keep the existing JSON-LD structured data, but make sure it represents Vishal Kumar Pandey and a student/developer portfolio rather than Mara Vale or a designer.
+
+==================================================
+10. REMOVE ALL TEMPLATE CONTENT
+==================================================
+
+Search the ENTIRE project, not just the visible pages.
+
+Find and remove/replace all remaining demo/template references including:
+
+"Mara"
+"Mara Vale"
+"Independent Design Engineer"
+"design engineer"
+"designer"
+"London + Everywhere"
+"selected work"
+"client work"
+"design practice"
+"fake client names"
+"fake company names"
+"2022–24"
+"Hi, I'm Mara"
+and any other text clearly belonging to the original template.
+
+Do not blindly remove words that are technically required by the project.
+Only replace content that belongs to the demo/template.
+
+After replacement, search the project again to verify no inappropriate demo content remains.
+
+==================================================
+11. RESPONSIVE DESIGN
+==================================================
+
+Check the website on:
+- Desktop
+- Tablet
+- Mobile
+
+Make sure:
+- Navigation works.
+- Text does not overflow.
+- Buttons remain usable.
+- Contact form remains usable.
+- No horizontal scrolling is introduced.
+- Keyboard accessibility remains intact.
+
+Do not redesign the responsive layout.
+
+==================================================
+12. FINAL VERIFICATION
+==================================================
+
+After all changes:
+
+1. Run the production build.
+2. Fix all actual build errors.
+3. Check browser console for application errors.
+4. Verify these routes:
+   /
+   /work
+   /about
+   /contact
+5. Verify navigation between all pages.
+6. Verify the contact form.
+7. Verify keyboard navigation.
+8. Verify accessibility-related markup.
+9. Verify SEO metadata.
+10. Search again for remaining template/demo content.
+
+A non-blocking source-map warning may remain if it comes from an existing dependency, but do not introduce new warnings or errors.
+
+==================================================
+FINAL RESPONSE
+==================================================
+
+When finished, give me a concise final report containing ONLY:
+
+- Pages verified
+- Accessibility status
+- SEO status
+- Contact form status
+- Navigation status
+- Demo content removal status
+- Production build status
+- Any remaining issue, if there is one
+
+Do not make additional design changes after verification.

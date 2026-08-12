@@ -89,7 +89,7 @@ function Shell({ children }: { children: ReactNode }) {
       <header className="site-header">
         <div className="page-wrap site-nav">
           <Link href="/" className="brand" data-testid="link-brand" onClick={() => closeMenu()}>
-            <span className="brand-mark" aria-hidden="true">M</span>
+            <span className="brand-mark" aria-hidden="true">V</span>
             <span>Vishal Kumar Pandey</span>
           </Link>
           <button
@@ -128,7 +128,7 @@ function Shell({ children }: { children: ReactNode }) {
             <p className="eyebrow">Vishal Kumar Pandey — BCA Student &amp; Developer</p>
             <p className="footer-note">Building practical web solutions with a focus on clear interfaces and useful technology.</p>
           </div>
-          <div className="footer-mark" aria-hidden="true">mv<span style={{ color: 'hsl(var(--primary))' }}>.</span></div>
+          <div className="footer-mark" aria-hidden="true">vk<span style={{ color: 'hsl(var(--primary))' }}>.</span></div>
         </div>
       </footer>
     </div>
@@ -142,22 +142,22 @@ const personSchema = {
   jobTitle: 'BCA Student & Developer',
   url: siteUrl,
   description: 'Bachelor of Computer Applications student and developer focused on web development and practical software solutions.',
-  knowsAbout: ['Web Development', 'HTML', 'CSS', 'JavaScript', 'SQL', 'MySQL', 'Node.js', 'AI/API Integration'],
+  knowsAbout: ['Web Development', 'HTML', 'CSS', 'Java', 'Python', 'JavaScript', 'SQL', 'MySQL', 'React', 'Node.js', 'Git & GitHub'],
 };
 
 function Home() {
   return (
     <>
-      <Meta title="Vishal Kumar Pandey — BCA Student & Developer" description="Vishal Kumar Pandey is a Bachelor of Computer Applications student focused on web development, JavaScript, SQL, Node.js, and AI/API integration." path="/" schema={personSchema} />
+      <Meta title="Vishal Kumar Pandey — BCA Student & Developer" description="Vishal Kumar Pandey is a BCA student and aspiring software developer who enjoys building responsive, user-friendly web applications." path="/" schema={personSchema} />
       <main id="main-content">
         <section className="page-wrap section-space" aria-labelledby="home-title">
           <div className="relative">
-            <p className="eyebrow reveal">BCA student &amp; developer / Web development</p>
+            <p className="eyebrow reveal">BCA STUDENT &amp; DEVELOPER / WEB DEVELOPMENT</p>
             <h1 id="home-title" className="display-heading hero-title text-balance reveal reveal-delay-1">I build practical <em>web solutions.</em></h1>
             <div className="hero-mark" aria-hidden="true" />
             <div className="hero-rail reveal reveal-delay-2">
-              <p className="max-w-[500px] text-lg leading-relaxed text-[hsl(var(--muted-foreground))]">I am studying computer applications and building responsive, user-friendly projects with HTML, CSS, JavaScript, SQL, Node.js, and AI/API integrations.</p>
-              <Link href="/work" className="button-outline" data-testid="link-home-work">View my projects <span aria-hidden="true">↓</span></Link>
+              <p className="max-w-[500px] text-lg leading-relaxed text-[hsl(var(--muted-foreground))]">I am a BCA student and aspiring software developer who enjoys building responsive, user-friendly web applications and learning through practical projects.</p>
+              <Link href="/work" className="button-outline" data-testid="link-home-work">View My Project <span aria-hidden="true">↓</span></Link>
             </div>
           </div>
         </section>
@@ -198,21 +198,30 @@ function Home() {
 }
 
 const projects = [
-  { id: 'field-notes', number: '01', type: 'Product + design system', year: '2024', title: 'Field Notes', intro: 'A calmer command centre for the people who keep cities moving.', detail: 'I led product direction and front-end architecture for an operations platform used by 2,400+ field workers. The work replaced a thicket of legacy tools with one legible, offline-ready workspace.', outcome: '27% fewer handoff errors in the first quarter.', art: 'art-window' },
-  { id: 'common-thread', number: '02', type: 'Identity + editorial web', year: '2023', title: 'Common Thread', intro: 'A new digital home for a cooperative of independent makers.', detail: 'A living identity built from shared rules, not a single visual trick. The site gives 48 makers a voice while making the collective feel like one generous, coherent place.', outcome: '3.4× increase in time spent exploring maker stories.', art: 'art-spiral' },
-  { id: 'civic-table', number: '03', type: 'Service design + research', year: '2022—24', title: 'Civic Table', intro: 'Making local climate decisions legible, participatory, and a little less exhausting.', detail: 'I worked alongside residents, council teams, and community organisers to turn a complicated consultation process into a toolkit of plain-language moments and useful feedback loops.', outcome: '12 neighbourhoods using the toolkit today.', art: 'art-strata' },
+  {
+    id: 'gym-membership-management',
+    number: '01',
+    type: 'Web development',
+    year: 'Coursework',
+    title: 'Gym Membership Management System',
+    intro: 'A responsive web application concept designed to make gym membership management easier by organizing membership plans, member information, attendance, and fitness-related features in one user-friendly interface.',
+    detail: 'The project focuses on a practical responsive interface with clear day-to-day interactions. It does not claim backend, database, authentication, API, or online payment functionality.',
+    features: ['Membership plans', 'Member information', 'Attendance management', 'BMI Calculator', 'Responsive user interface', 'User-friendly navigation'],
+    outcome: 'HTML · CSS · JavaScript · Responsive Web Design',
+    art: 'art-window',
+  },
 ];
 
 function Work() {
   const schema = { '@context': 'https://schema.org', '@type': 'ItemList', itemListElement: projects.map((project, index) => ({ '@type': 'ListItem', position: index + 1, name: project.title, description: project.intro })) };
   return (
     <>
-      <Meta title="Selected Work — Mara Vale" description="Selected product, identity, and service design work by Mara Vale." path="/work" schema={schema} />
+      <Meta title="Projects — Vishal Kumar Pandey" description="Explore the Gym Membership Management System built by BCA student and developer Vishal Kumar Pandey." path="/work" schema={schema} />
       <main id="main-content">
         <section className="page-wrap page-intro" aria-labelledby="work-title">
-          <p className="eyebrow section-kicker reveal">Selected work / 2022—24</p>
-          <h1 id="work-title" className="display-heading display-title mt-5 reveal reveal-delay-1">The good, hard<br /><em>middle.</em></h1>
-          <p className="mt-8 reveal reveal-delay-2">The part after the big idea and before the polished outcome — where systems get tested, assumptions get softened, and the work earns its place in the world.</p>
+          <p className="eyebrow section-kicker reveal">Projects / Web development</p>
+          <h1 id="work-title" className="display-heading display-title mt-5 reveal reveal-delay-1">Projects built with code,<br /><em>curiosity, and care.</em></h1>
+          <p className="mt-8 reveal reveal-delay-2">I build practical web applications to strengthen my development skills and solve real-world problems.</p>
         </section>
         <section className="page-wrap section-space" aria-labelledby="projects-title">
           <h2 id="projects-title" className="sr-only">Project case studies</h2>
@@ -221,13 +230,17 @@ function Work() {
               <article id={project.id} key={project.id} className="grid lg:grid-cols-[1fr_1.3fr] gap-8 lg:gap-20 scroll-mt-10">
                 <div className={`relative min-h-[390px] overflow-hidden border border-[hsl(var(--foreground)/.3)] ${index === 0 ? 'bg-[hsl(var(--secondary))]' : index === 1 ? 'bg-[hsl(var(--primary))]' : 'bg-[hsl(var(--muted))]'}`}>
                   <div className={`card-art ${project.art}`} style={{ right: '17%', top: '20%', width: '66%', height: '57%' }} aria-hidden="true" />
-                  <span className="eyebrow absolute left-5 bottom-5">Case study / {project.number}</span>
+                  <span className="eyebrow absolute left-5 bottom-5">Project / {project.number}</span>
                 </div>
                 <div className="pt-2">
                   <div className="flex justify-between gap-4 border-b ink-rule pb-4"><span className="eyebrow">{project.type}</span><span className="eyebrow">{project.year}</span></div>
                   <h2 className="display-heading text-6xl sm:text-8xl mt-8">{project.title}</h2>
                   <p className="text-2xl leading-snug mt-7 max-w-xl">{project.intro}</p>
                   <p className="text-[hsl(var(--muted-foreground))] leading-relaxed mt-5 max-w-xl">{project.detail}</p>
+                   <h3 className="eyebrow mt-8">Features</h3>
+                   <ul className="mt-3 grid sm:grid-cols-2 gap-x-6 gap-y-2 text-sm text-[hsl(var(--muted-foreground))] list-disc pl-5">
+                     {project.features.map((feature) => <li key={feature}>{feature}</li>)}
+                   </ul>
                   <p className="font-mono text-xs uppercase tracking-wider mt-8 text-[hsl(var(--primary))]"><span className="mr-3" aria-hidden="true">↳</span>{project.outcome}</p>
                 </div>
               </article>
@@ -242,41 +255,41 @@ function Work() {
 function About() {
   return (
     <>
-      <Meta title="About Mara Vale — Design Engineer" description="Meet Mara Vale, an independent design engineer working across product, systems, and service design." path="/about" schema={personSchema} />
+      <Meta title="About Vishal Kumar Pandey — BCA Student & Developer" description="Learn about Vishal Kumar Pandey, a Bachelor of Computer Applications student and aspiring software developer." path="/about" schema={personSchema} />
       <main id="main-content">
         <section className="page-wrap page-intro" aria-labelledby="about-title">
-          <p className="eyebrow section-kicker reveal">About the practice</p>
-          <h1 id="about-title" className="display-heading display-title mt-5 reveal reveal-delay-1">A designer who<br /><em>stays for the details.</em></h1>
+          <p className="eyebrow section-kicker reveal">ABOUT ME</p>
+          <h1 id="about-title" className="display-heading display-title mt-5 reveal reveal-delay-1">Learning, building, and improving<br /><em>one project at a time.</em></h1>
         </section>
         <section className="page-wrap section-space" aria-labelledby="bio-title">
           <div className="bio-grid">
-            <div className="portrait" role="img" aria-label="Abstract portrait mark for Mara Vale"><div className="portrait-mark" aria-hidden="true" /></div>
+            <div className="portrait" role="img" aria-label="Abstract portrait mark for Vishal Kumar Pandey"><div className="portrait-mark" aria-hidden="true" /></div>
             <div>
               <p className="eyebrow section-kicker">A short version</p>
-              <h2 id="bio-title" className="display-heading text-5xl mt-5">Hi, I’m Mara.</h2>
-              <p className="text-xl leading-relaxed mt-7">I’m an independent design engineer with a soft spot for complicated problems and a stubborn belief that digital things can be both useful and beautiful.</p>
-              <p className="text-[hsl(var(--muted-foreground))] leading-relaxed mt-5">For the past twelve years I’ve moved between product teams, studios, and the spaces in between. I design the structure, write the interface, and build enough of the thing to know where the seams are. Based in London, working wherever a good question needs me.</p>
-              <Link href="/contact" className="button-primary mt-8" data-testid="link-about-contact">Work together <span aria-hidden="true">↗</span></Link>
+              <h2 id="bio-title" className="display-heading text-5xl mt-5">Hi, I’m Vishal.</h2>
+              <p className="text-xl leading-relaxed mt-7">Hi, I'm Vishal Kumar Pandey, a BCA student and aspiring software developer. I enjoy building practical web applications and exploring technologies that help turn ideas into useful digital solutions.</p>
+              <p className="text-[hsl(var(--muted-foreground))] leading-relaxed mt-5">My current interests include web development, Python, JavaScript, databases, and modern application development. I focus on learning by building projects and improving my problem-solving skills.</p>
+              <Link href="/contact" className="button-primary mt-8" data-testid="link-about-contact">Get in touch <span aria-hidden="true">↗</span></Link>
             </div>
           </div>
         </section>
         <section className="page-wrap section-space pt-0" aria-labelledby="values-title">
           <div className="split-section">
-            <div><p className="eyebrow section-kicker">Working principles</p><h2 id="values-title" className="display-heading display-title mt-5">Useful rules<br /><em>for messy work.</em></h2></div>
+            <div><p className="eyebrow section-kicker">TECHNICAL SKILLS</p><h2 id="values-title" className="display-heading display-title mt-5">Skills for<br /><em>practical projects.</em></h2></div>
             <div className="capability-list">
-              <div className="capability"><span className="capability-num">01</span><div><h3>Make the invisible visible.</h3><p>Map the system, name the trade-off, draw the thing everyone is circling around.</p></div></div>
-              <div className="capability"><span className="capability-num">02</span><div><h3>Leave room for humans.</h3><p>Build with context, recovery, and real constraints in mind. The edge case is usually a person.</p></div></div>
-              <div className="capability"><span className="capability-num">03</span><div><h3>Prototype the hard bit.</h3><p>Don’t polish the easy path while the important question stays hypothetical.</p></div></div>
-              <div className="capability"><span className="capability-num">04</span><div><h3>Make it last.</h3><p>A good handover is part of the design. So are tokens, docs, and a little thoughtful restraint.</p></div></div>
+              <div className="capability"><span className="capability-num">01</span><div><h3>HTML</h3><p>Semantic structure for accessible web pages.</p></div></div>
+              <div className="capability"><span className="capability-num">02</span><div><h3>CSS</h3><p>Responsive layouts and clear visual presentation.</p></div></div>
+              <div className="capability"><span className="capability-num">03</span><div><h3>Java and Python</h3><p>Programming fundamentals and practical application development.</p></div></div>
+              <div className="capability"><span className="capability-num">04</span><div><h3>SQL / MySQL</h3><p>Working with structured data and database fundamentals.</p></div></div>
+              <div className="capability"><span className="capability-num">05</span><div><h3>React and Node.js</h3><p>Modern frontend and server-side web development.</p></div></div>
+              <div className="capability"><span className="capability-num">06</span><div><h3>Git &amp; GitHub</h3><p>Version control and collaborative development workflows.</p></div></div>
             </div>
           </div>
         </section>
         <section className="page-wrap section-space pt-0" aria-labelledby="experience-title">
-          <div className="flex items-end justify-between mb-8"><div><p className="eyebrow section-kicker">The long view</p><h2 id="experience-title" className="display-heading text-5xl mt-4">Places I’ve learned from.</h2></div></div>
+          <div className="flex items-end justify-between mb-8"><div><p className="eyebrow section-kicker">Education</p><h2 id="experience-title" className="display-heading text-5xl mt-4">What I’m studying.</h2></div></div>
           <div className="timeline">
-            <div className="timeline-item"><time>2020—now</time><div><h3>Independent / Design engineer</h3><p>Partnering with public-interest teams, growing companies, and quietly ambitious founders.</p></div></div>
-            <div className="timeline-item"><time>2017—20</time><div><h3>Northstar Studio / Lead designer</h3><p>Product, identity, and the connective tissue between the two.</p></div></div>
-            <div className="timeline-item"><time>2012—17</time><div><h3>Various good people / Designer + developer</h3><p>Learning to ask better questions, one shipped thing at a time.</p></div></div>
+            <div className="timeline-item"><time>Current</time><div><h3>Bachelor of Computer Applications (BCA)</h3><p>Studying computer applications with a focus on web development and software fundamentals.</p></div></div>
           </div>
         </section>
       </main>
@@ -326,22 +339,17 @@ function Contact() {
   };
   return (
     <>
-      <Meta title="Contact Mara Vale — Design Engineer" description="Start a conversation with Mara Vale about a product, service, or system that needs making clearer." path="/contact" />
+      <Meta title="Contact Vishal Kumar Pandey — BCA Student & Developer" description="Contact Vishal Kumar Pandey about a project idea, internship opportunity, or simply connecting." path="/contact" />
       <main id="main-content">
         <section className="page-wrap page-intro" aria-labelledby="contact-title">
-          <p className="eyebrow section-kicker reveal">Start a conversation</p>
-          <h1 id="contact-title" className="display-heading display-title mt-5 reveal reveal-delay-1">Bring the<br /><em>knot.</em></h1>
+          <p className="eyebrow section-kicker reveal">GET IN TOUCH</p>
+          <h1 id="contact-title" className="display-heading display-title mt-5 reveal reveal-delay-1">Let's build<br /><em>something useful.</em></h1>
         </section>
         <section className="page-wrap section-space" aria-labelledby="form-title">
           <div className="contact-layout">
             <aside className="contact-aside" aria-labelledby="form-title">
-              <h2 id="form-title" className="display-heading text-5xl">Let’s see<br />what it’s made of.</h2>
-              <p>Tell me what you’re working on, what feels stuck, or what you’re hoping to make more useful. No polished brief required.</p>
-              <div className="contact-links" aria-label="Alternate contact methods">
-                <a className="contact-link" href="mailto:hello@maravale.design" data-testid="link-email">hello@maravale.design <span aria-hidden="true">↗</span></a>
-                <a className="contact-link" href="https://www.linkedin.com" target="_blank" rel="noreferrer" data-testid="link-linkedin">LinkedIn <span aria-hidden="true">↗</span></a>
-                <a className="contact-link" href="https://github.com" target="_blank" rel="noreferrer" data-testid="link-github">GitHub <span aria-hidden="true">↗</span></a>
-              </div>
+              <h2 id="form-title" className="display-heading text-5xl">Tell me<br />what you’re building.</h2>
+              <p>If you have a project idea, internship opportunity, or simply want to connect, feel free to send me a message.</p>
             </aside>
             <div className="form-card">
               <div className="sr-only" aria-live="polite" aria-atomic="true">

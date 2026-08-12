@@ -120,7 +120,7 @@
 .page-intro p { max-width: 560px; font-size: 1.15rem; line-height: 1.55; color: hsl(var(--muted-foreground)); }
 .hero-mark { position: absolute; right: 5%; top: 20%; width: clamp(180px, 26vw, 350px); aspect-ratio: 1; border-radius: 50%; background: hsl(var(--secondary)); opacity: .9; }
 .hero-mark::before { content: ''; position: absolute; inset: 13%; border: 1px solid hsl(var(--foreground) / .45); border-radius: 42% 58% 50% 50%; transform: rotate(30deg); }
-.hero-mark::after { content: 'MV'; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%) rotate(-12deg); font-family: var(--app-font-serif); font-size: clamp(3rem, 8vw, 7rem); color: hsl(var(--foreground)); }
+.hero-mark::after { content: 'VK'; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%) rotate(-12deg); font-family: var(--app-font-serif); font-size: clamp(3rem, 8vw, 7rem); color: hsl(var(--foreground)); }
 .hero-rail { display: grid; grid-template-columns: 1fr auto; gap: 2rem; align-items: end; margin-top: 3.2rem; }
 .scribble { font-family: var(--app-font-serif); font-style: italic; font-size: 1.6rem; }
 .work-grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: 1.25rem; }
@@ -162,7 +162,7 @@
 .bio-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: 5rem; align-items: start; }
 .portrait { position: relative; min-height: 520px; background: hsl(var(--primary)); overflow: hidden; }
 .portrait::before { content: ''; position: absolute; width: 68%; height: 78%; left: 16%; top: 12%; border: 1px solid hsl(var(--primary-foreground) / .7); border-radius: 49% 51% 45% 55%; transform: rotate(8deg); }
-.portrait::after { content: 'MARA\\A VALE'; white-space: pre; position: absolute; left: 11%; bottom: 9%; font-family: var(--app-font-mono); font-size: .7rem; line-height: 1.8; color: hsl(var(--primary-foreground)); }
+.portrait::after { content: 'VISHAL\\A KUMAR'; white-space: pre; position: absolute; left: 11%; bottom: 9%; font-family: var(--app-font-mono); font-size: .7rem; line-height: 1.8; color: hsl(var(--primary-foreground)); }
 .portrait-mark { position: absolute; left: 39%; top: 30%; width: 24%; aspect-ratio: 1; border-radius: 50%; background: hsl(var(--secondary)); }
 .timeline { border-top: 1px solid hsl(var(--foreground) / .25); }
 .timeline-item { display: grid; grid-template-columns: 7rem 1fr; gap: 2rem; padding: 1.5rem 0; border-bottom: 1px solid hsl(var(--foreground) / .2); }
