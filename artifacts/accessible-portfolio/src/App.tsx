@@ -128,7 +128,7 @@ function Shell({ children }: { children: ReactNode }) {
             <p className="eyebrow">Vishal Kumar Pandey — BCA Student &amp; Developer</p>
             <p className="footer-note">Building practical web solutions with a focus on clear interfaces and useful technology.</p>
           </div>
-          <div className="footer-mark" aria-hidden="true">vk<span style={{ color: 'hsl(var(--primary))' }}>.</span></div>
+          <div className="footer-mark" aria-hidden="true">vk<span className="accent-mark">.</span></div>
         </div>
       </footer>
     </div>
