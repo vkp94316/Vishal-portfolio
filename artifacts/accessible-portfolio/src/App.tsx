@@ -66,6 +66,7 @@ function Shell({ children }: { children: ReactNode }) {
   const links = [
     { href: '/', label: 'Home' },
     { href: '/work', label: 'Projects' },
+    { href: '/todo', label: 'To-Do' },
     { href: '/about', label: 'About' },
     { href: '/contact', label: 'Contact' },
   ];
@@ -448,6 +449,355 @@ function Contact() {
   );
 }
 
+function TodoPage() {
+  type TodoItem = {
+    id: string;
+    text: string;
+    completed: boolean;
+    createdAt: number;
+  };
+
+  type FilterType = 'all' | 'active' | 'completed';
+
+  const STORAGE_KEY = 'vishal_portfolio_todos';
+
+  const INITIAL_TODOS: TodoItem[] = [
+    { id: 'todo-1', text: 'Explore responsive portfolio layout & CSS Grid', completed: true, createdAt: 1700000000000 },
+    { id: 'todo-2', text: 'Review Gym Membership Management System project', completed: false, createdAt: 1700000001000 },
+    { id: 'todo-3', text: 'Test light & dark theme toggle behavior', completed: false, createdAt: 1700000002000 },
+  ];
+
+  const [todos, setTodos] = useState<TodoItem[]>(() => {
+    if (typeof window === 'undefined') return INITIAL_TODOS;
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      }
+    } catch {
+      // ignore
+    }
+    return INITIAL_TODOS;
+  });
+
+  const [inputVal, setInputVal] = useState('');
+  const [filter, setFilter] = useState<FilterType>('all');
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editText, setEditText] = useState('');
+  const [announcement, setAnnouncement] = useState('');
+  const editInputRef = useRef<HTMLInputElement | null>(null);
+
+  // Sync to localStorage
+  useEffect(() => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(todos));
+    } catch (e) {
+      console.error('Failed to save to localStorage:', e);
+    }
+  }, [todos]);
+
+  // Focus edit input on edit start
+  useEffect(() => {
+    if (editingId && editInputRef.current) {
+      editInputRef.current.focus();
+    }
+  }, [editingId]);
+
+  // Create
+  const handleAdd = (e: FormEvent) => {
+    e.preventDefault();
+    const trimmed = inputVal.trim();
+    if (!trimmed) return;
+    const newTodo: TodoItem = {
+      id: `todo-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
+      text: trimmed,
+      completed: false,
+      createdAt: Date.now(),
+    };
+    setTodos((prev) => [newTodo, ...prev]);
+    setInputVal('');
+    setAnnouncement(`Task "${trimmed}" added.`);
+  };
+
+  // Toggle Completed
+  const handleToggle = (id: string) => {
+    setTodos((prev) =>
+      prev.map((t) => {
+        if (t.id === id) {
+          const nextState = !t.completed;
+          setAnnouncement(`Task "${t.text}" marked as ${nextState ? 'completed' : 'active'}.`);
+          return { ...t, completed: nextState };
+        }
+        return t;
+      })
+    );
+  };
+
+  // Delete
+  const handleDelete = (id: string, text: string) => {
+    setTodos((prev) => prev.filter((t) => t.id !== id));
+    if (editingId === id) {
+      setEditingId(null);
+    }
+    setAnnouncement(`Task "${text}" deleted.`);
+  };
+
+  // Start Edit
+  const handleStartEdit = (todo: TodoItem) => {
+    setEditingId(todo.id);
+    setEditText(todo.text);
+  };
+
+  // Save Edit
+  const handleSaveEdit = (id: string) => {
+    const trimmed = editText.trim();
+    if (trimmed) {
+      setTodos((prev) =>
+        prev.map((t) => (t.id === id ? { ...t, text: trimmed } : t))
+      );
+      setAnnouncement(`Task updated to "${trimmed}".`);
+    }
+    setEditingId(null);
+    setEditText('');
+  };
+
+  // Cancel Edit
+  const handleCancelEdit = () => {
+    setEditingId(null);
+    setEditText('');
+  };
+
+  // Clear Completed
+  const handleClearCompleted = () => {
+    const count = todos.filter((t) => t.completed).length;
+    setTodos((prev) => prev.filter((t) => !t.completed));
+    setAnnouncement(`Cleared ${count} completed task${count === 1 ? '' : 's'}.`);
+  };
+
+  const filteredTodos = todos.filter((t) => {
+    if (filter === 'active') return !t.completed;
+    if (filter === 'completed') return t.completed;
+    return true;
+  });
+
+  const activeCount = todos.filter((t) => !t.completed).length;
+  const completedCount = todos.filter((t) => t.completed).length;
+
+  return (
+    <>
+      <Meta
+        title="Interactive To-Do List — Vishal Kumar Pandey"
+        description="A client-side task management web application demonstrating JavaScript DOM manipulation, state management, filter pipelines, and localStorage persistence."
+        path="/todo"
+      />
+      <main id="main-content">
+        <section className="page-wrap page-intro" aria-labelledby="todo-title">
+          <p className="eyebrow section-kicker reveal">JAVASCRIPT &amp; STATE MANAGEMENT</p>
+          <h1 id="todo-title" className="display-heading display-title reveal reveal-delay-1" style={{ marginTop: '1rem' }}>
+            Interactive <em>To-Do List.</em>
+          </h1>
+          <p className="reveal reveal-delay-2" style={{ marginTop: '1.5rem' }}>
+            A responsive client-side task management application featuring full CRUD capabilities, filter pipelines, and local storage state persistence.
+          </p>
+        </section>
+
+        <section className="page-wrap section-space" aria-label="Task manager application">
+          <div className="todo-container">
+            {/* Screen Reader Live Announcements */}
+            <div className="sr-only" aria-live="polite" aria-atomic="true">
+              {announcement}
+            </div>
+
+            <div className="todo-card">
+              {/* Task Creation Form */}
+              <form onSubmit={handleAdd} className="todo-form" aria-label="Add new task">
+                <div className="todo-input-wrap">
+                  <label htmlFor="new-todo-input" className="sr-only">
+                    What needs to be done?
+                  </label>
+                  <input
+                    id="new-todo-input"
+                    type="text"
+                    className="todo-input"
+                    placeholder="Add a new task..."
+                    value={inputVal}
+                    onChange={(e) => setInputVal(e.target.value)}
+                    required
+                    data-testid="input-new-todo"
+                  />
+                </div>
+                <button type="submit" className="button-primary" data-testid="button-add-todo">
+                  Add Task <span aria-hidden="true">↗</span>
+                </button>
+              </form>
+
+              {/* Filters & Statistics Toolbar */}
+              <div className="todo-toolbar">
+                <div>
+                  <strong>{activeCount}</strong> {activeCount === 1 ? 'task' : 'tasks'} remaining
+                </div>
+                <div className="todo-filters" role="group" aria-label="Task filters">
+                  <button
+                    type="button"
+                    className={`todo-filter-btn ${filter === 'all' ? 'is-active' : ''}`}
+                    onClick={() => setFilter('all')}
+                    aria-pressed={filter === 'all'}
+                    data-testid="filter-all"
+                  >
+                    All ({todos.length})
+                  </button>
+                  <button
+                    type="button"
+                    className={`todo-filter-btn ${filter === 'active' ? 'is-active' : ''}`}
+                    onClick={() => setFilter('active')}
+                    aria-pressed={filter === 'active'}
+                    data-testid="filter-active"
+                  >
+                    Active ({activeCount})
+                  </button>
+                  <button
+                    type="button"
+                    className={`todo-filter-btn ${filter === 'completed' ? 'is-active' : ''}`}
+                    onClick={() => setFilter('completed')}
+                    aria-pressed={filter === 'completed'}
+                    data-testid="filter-completed"
+                  >
+                    Completed ({completedCount})
+                  </button>
+                </div>
+              </div>
+
+              {/* Task List */}
+              {filteredTodos.length === 0 ? (
+                <div className="todo-empty" data-testid="todo-empty-state">
+                  <p className="todo-empty-title">
+                    {filter === 'all' ? 'All caught up!' : filter === 'active' ? 'No active tasks!' : 'No completed tasks yet.'}
+                  </p>
+                  <p>
+                    {filter === 'all'
+                      ? 'You have no tasks in your list. Type a new task above and hit "Add Task" to get started.'
+                      : filter === 'active'
+                      ? 'Great job! All of your existing tasks are marked as completed.'
+                      : 'Complete a task from your active list to see it appear here.'}
+                  </p>
+                </div>
+              ) : (
+                <ul className="todo-list" aria-label="Task list">
+                  {filteredTodos.map((todo) => {
+                    const isEditing = editingId === todo.id;
+                    return (
+                      <li key={todo.id} className={`todo-item ${todo.completed ? 'is-completed' : ''}`} data-testid={`todo-item-${todo.id}`}>
+                        {isEditing ? (
+                          <div className="todo-edit-wrap">
+                            <label htmlFor={`edit-input-${todo.id}`} className="sr-only">
+                              Edit task text
+                            </label>
+                            <input
+                              id={`edit-input-${todo.id}`}
+                              ref={editInputRef}
+                              type="text"
+                              className="todo-edit-input"
+                              value={editText}
+                              onChange={(e) => setEditText(e.target.value)}
+                              onKeyDown={(e) => {
+                                if (e.key === 'Enter') handleSaveEdit(todo.id);
+                                if (e.key === 'Escape') handleCancelEdit();
+                              }}
+                              data-testid="input-edit-todo"
+                            />
+                            <button
+                              type="button"
+                              className="todo-btn-icon todo-btn-save"
+                              onClick={() => handleSaveEdit(todo.id)}
+                              aria-label="Save edited task"
+                              data-testid="button-save-edit"
+                            >
+                              Save
+                            </button>
+                            <button
+                              type="button"
+                              className="todo-btn-icon"
+                              onClick={handleCancelEdit}
+                              aria-label="Cancel editing"
+                              data-testid="button-cancel-edit"
+                            >
+                              Cancel
+                            </button>
+                          </div>
+                        ) : (
+                          <>
+                            <div className="todo-content">
+                              <input
+                                id={`checkbox-${todo.id}`}
+                                type="checkbox"
+                                className="todo-checkbox"
+                                checked={todo.completed}
+                                onChange={() => handleToggle(todo.id)}
+                                aria-label={`Mark task "${todo.text}" as ${todo.completed ? 'incomplete' : 'completed'}`}
+                                data-testid={`checkbox-todo-${todo.id}`}
+                              />
+                              <label
+                                htmlFor={`checkbox-${todo.id}`}
+                                className="todo-text"
+                                onDoubleClick={() => handleStartEdit(todo)}
+                                title="Double-click to edit"
+                              >
+                                {todo.text}
+                              </label>
+                            </div>
+                            <div className="todo-actions">
+                              <button
+                                type="button"
+                                className="todo-btn-icon"
+                                onClick={() => handleStartEdit(todo)}
+                                aria-label={`Edit task "${todo.text}"`}
+                                title="Edit task"
+                                data-testid={`button-edit-${todo.id}`}
+                              >
+                                Edit
+                              </button>
+                              <button
+                                type="button"
+                                className="todo-btn-icon todo-btn-delete"
+                                onClick={() => handleDelete(todo.id, todo.text)}
+                                aria-label={`Delete task "${todo.text}"`}
+                                title="Delete task"
+                                data-testid={`button-delete-${todo.id}`}
+                              >
+                                Delete
+                              </button>
+                            </div>
+                          </>
+                        )}
+                      </li>
+                    );
+                  })}
+                </ul>
+              )}
+
+              {/* Footer Summary / Clear Completed */}
+              <div className="todo-footer-bar">
+                <span>Stored locally in your browser</span>
+                {completedCount > 0 && (
+                  <button
+                    type="button"
+                    className="todo-btn-clear"
+                    onClick={handleClearCompleted}
+                    data-testid="button-clear-completed"
+                  >
+                    Clear completed ({completedCount})
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </>
+  );
+}
+
 function Router() {
   return (
     <RoutedErrorBoundary>
@@ -455,6 +805,7 @@ function Router() {
         <Switch>
           <Route path="/" component={Home} />
           <Route path="/work" component={Work} />
+          <Route path="/todo" component={TodoPage} />
           <Route path="/about" component={About} />
           <Route path="/contact" component={Contact} />
           <Route component={NotFound} />
