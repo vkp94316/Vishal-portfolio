@@ -805,9 +805,15 @@ function Router() {
         <Switch>
           <Route path="/" component={Home} />
           <Route path="/work" component={Work} />
+          <Route path="/work/:rest*" component={Work} />
           <Route path="/todo" component={TodoPage} />
+          <Route path="/todo/:rest*" component={TodoPage} />
+          <Route path="/tasks" component={TodoPage} />
+          <Route path="/tasks/:rest*" component={TodoPage} />
           <Route path="/about" component={About} />
+          <Route path="/about/:rest*" component={About} />
           <Route path="/contact" component={Contact} />
+          <Route path="/contact/:rest*" component={Contact} />
           <Route component={NotFound} />
         </Switch>
       </Shell>
