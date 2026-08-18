@@ -67,6 +67,7 @@ function Shell({ children }: { children: ReactNode }) {
     { href: '/', label: 'Home' },
     { href: '/work', label: 'Projects' },
     { href: '/todo', label: 'To-Do' },
+    { href: '/weather', label: 'Weather' },
     { href: '/about', label: 'About' },
     { href: '/contact', label: 'Contact' },
   ];
@@ -798,6 +799,415 @@ function TodoPage() {
   );
 }
 
+function WeatherPage() {
+  type WeatherData = {
+    city: string;
+    country: string;
+    admin1?: string;
+    latitude: number;
+    longitude: number;
+    temperature: number;
+    apparentTemperature: number;
+    humidity: number;
+    windSpeed: number;
+    windDirection: number;
+    surfacePressure: number;
+    precipitation: number;
+    weatherCode: number;
+    weatherLabel: string;
+    weatherIcon: string;
+    isDay: boolean;
+    time: string;
+    timezone: string;
+  };
+
+  const decodeWmoWeather = (code: number, isDay: number = 1) => {
+    switch (code) {
+      case 0:
+        return { label: 'Clear Sky', icon: isDay ? '☀️' : '🌙' };
+      case 1:
+        return { label: 'Mainly Clear', icon: isDay ? '🌤️' : '🌑' };
+      case 2:
+        return { label: 'Partly Cloudy', icon: '⛅' };
+      case 3:
+        return { label: 'Overcast', icon: '☁️' };
+      case 45:
+      case 48:
+        return { label: 'Foggy / Rime Fog', icon: '🌫️' };
+      case 51:
+        return { label: 'Light Drizzle', icon: '🌦️' };
+      case 53:
+        return { label: 'Moderate Drizzle', icon: '🌧️' };
+      case 55:
+        return { label: 'Dense Drizzle', icon: '🌧️' };
+      case 56:
+      case 57:
+        return { label: 'Freezing Drizzle', icon: '❄️' };
+      case 61:
+        return { label: 'Slight Rain', icon: '🌦️' };
+      case 63:
+        return { label: 'Moderate Rain', icon: '🌧️' };
+      case 65:
+        return { label: 'Heavy Rain', icon: '🌧️' };
+      case 66:
+      case 67:
+        return { label: 'Freezing Rain', icon: '🌧️' };
+      case 71:
+        return { label: 'Slight Snowfall', icon: '🌨️' };
+      case 73:
+        return { label: 'Moderate Snowfall', icon: '🌨️' };
+      case 75:
+        return { label: 'Heavy Snowfall', icon: '❄️' };
+      case 77:
+        return { label: 'Snow Grains', icon: '❄️' };
+      case 80:
+        return { label: 'Slight Rain Showers', icon: '🌦️' };
+      case 81:
+        return { label: 'Moderate Showers', icon: '🌧️' };
+      case 82:
+        return { label: 'Violent Rain Showers', icon: '⛈️' };
+      case 85:
+      case 86:
+        return { label: 'Snow Showers', icon: '🌨️' };
+      case 95:
+        return { label: 'Thunderstorm', icon: '⚡' };
+      case 96:
+      case 99:
+        return { label: 'Thunderstorm with Hail', icon: '⛈️' };
+      default:
+        return { label: 'Variable Weather', icon: '🌤️' };
+    }
+  };
+
+  const getWindDirection = (degree: number) => {
+    const directions = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW'];
+    const index = Math.round(((degree % 360) / 22.5)) % 16;
+    return directions[index];
+  };
+
+  const quickCities = ['Indore', 'New Delhi', 'Mumbai', 'London', 'Tokyo', 'New York'];
+
+  const [searchCity, setSearchCity] = useState('');
+  const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [announcement, setAnnouncement] = useState('');
+  const searchInputRef = useRef<HTMLInputElement | null>(null);
+
+  const performFetch = async (cityName: string) => {
+    const trimmed = cityName.trim();
+    if (!trimmed) {
+      setError('Please enter a city name to search.');
+      setAnnouncement('Error: Please enter a city name to search.');
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+    setAnnouncement(`Fetching real-time weather data for ${trimmed}...`);
+
+    try {
+      // Step 1: Open-Meteo Geocoding API
+      const geoUrl = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(trimmed)}&count=1&language=en&format=json`;
+      const geoResponse = await fetch(geoUrl);
+
+      if (!geoResponse.ok) {
+        throw new Error(`Geocoding service returned status ${geoResponse.status}`);
+      }
+
+      const geoJson = await geoResponse.json();
+
+      if (!geoJson.results || !Array.isArray(geoJson.results) || geoJson.results.length === 0) {
+        const notFoundMsg = `No location found for "${trimmed}". Please check the spelling and try again.`;
+        setError(notFoundMsg);
+        setAnnouncement(`Error: ${notFoundMsg}`);
+        setWeatherData(null);
+        setLoading(false);
+        return;
+      }
+
+      const location = geoJson.results[0];
+      const { latitude, longitude, name: resolvedCity, country, admin1 } = location;
+
+      if (typeof latitude !== 'number' || typeof longitude !== 'number') {
+        throw new Error('Invalid coordinate data received from geocoding service');
+      }
+
+      // Step 2: Open-Meteo Weather Forecast API
+      const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,weather_code,wind_speed_10m,wind_direction_10m,surface_pressure&timezone=auto`;
+      const weatherResponse = await fetch(weatherUrl);
+
+      if (!weatherResponse.ok) {
+        throw new Error(`Weather service returned status ${weatherResponse.status}`);
+      }
+
+      const weatherJson = await weatherResponse.json();
+
+      if (!weatherJson || !weatherJson.current) {
+        throw new Error('Invalid weather payload received from weather API');
+      }
+
+      const current = weatherJson.current;
+      const isDay = current.is_day === 1;
+      const weatherInfo = decodeWmoWeather(current.weather_code ?? 0, current.is_day ?? 1);
+
+      const parsedData: WeatherData = {
+        city: resolvedCity,
+        country: country || '',
+        admin1: admin1 || '',
+        latitude: Number(latitude.toFixed(2)),
+        longitude: Number(longitude.toFixed(2)),
+        temperature: current.temperature_2m,
+        apparentTemperature: current.apparent_temperature ?? current.temperature_2m,
+        humidity: current.relative_humidity_2m,
+        windSpeed: current.wind_speed_10m,
+        windDirection: current.wind_direction_10m ?? 0,
+        surfacePressure: current.surface_pressure ?? 1013.25,
+        precipitation: current.precipitation ?? 0,
+        weatherCode: current.weather_code ?? 0,
+        weatherLabel: weatherInfo.label,
+        weatherIcon: weatherInfo.icon,
+        isDay,
+        time: current.time,
+        timezone: weatherJson.timezone || 'Local',
+      };
+
+      setWeatherData(parsedData);
+      setError(null);
+      setAnnouncement(
+        `Weather for ${parsedData.city} updated: ${parsedData.weatherLabel}, ${parsedData.temperature}°C, humidity ${parsedData.humidity}%, wind ${parsedData.windSpeed} km/h.`
+      );
+    } catch (err: unknown) {
+      console.error('Weather fetch error:', err);
+      const message =
+        err instanceof Error && err.message.includes('status')
+          ? 'Weather service is temporarily unavailable. Please try again in a few moments.'
+          : 'Unable to connect to the weather service. Please check your network connection and try again.';
+      setError(message);
+      setAnnouncement(`Error: ${message}`);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSearch = (e: FormEvent) => {
+    e.preventDefault();
+    performFetch(searchCity);
+  };
+
+  const handleQuickCity = (city: string) => {
+    setSearchCity(city);
+    performFetch(city);
+    if (searchInputRef.current) {
+      searchInputRef.current.focus();
+    }
+  };
+
+  return (
+    <>
+      <Meta
+        title="Real-Time Weather Dashboard — Vishal Kumar Pandey"
+        description="A client-side real-time weather lookup dashboard demonstrating asynchronous JavaScript, Fetch API, Geocoding, and Open-Meteo REST API integration."
+        path="/weather"
+      />
+      <main id="main-content">
+        <section className="page-wrap page-intro" aria-labelledby="weather-title">
+          <p className="eyebrow section-kicker reveal">ASYNCHRONOUS JAVASCRIPT &amp; REST APIS</p>
+          <h1 id="weather-title" className="display-heading display-title reveal reveal-delay-1" style={{ marginTop: '1rem' }}>
+            Real-Time <em>Weather Dashboard.</em>
+          </h1>
+          <p className="reveal reveal-delay-2" style={{ marginTop: '1.5rem' }}>
+            Live meteorological data fetched via asynchronous REST endpoints from Open-Meteo Geocoding &amp; Forecast APIs.
+          </p>
+        </section>
+
+        <section className="page-wrap section-space" aria-label="Weather search and forecast display">
+          <div className="weather-container">
+            {/* Screen Reader Live Announcements */}
+            <div className="sr-only" aria-live="polite" aria-atomic="true">
+              {announcement}
+            </div>
+
+            {/* City Search Form Card */}
+            <div className="weather-card">
+              <form onSubmit={handleSearch} className="weather-search-form" noValidate aria-label="Search weather by city">
+                <div className="weather-input-group">
+                  <label htmlFor="weather-city-input" className="weather-label">
+                    City Name <span aria-hidden="true">*</span>
+                  </label>
+                  <div className="weather-input-wrap">
+                    <input
+                      id="weather-city-input"
+                      ref={searchInputRef}
+                      type="search"
+                      className="weather-input"
+                      placeholder="e.g., Indore, London, Tokyo..."
+                      value={searchCity}
+                      onChange={(e) => {
+                        setSearchCity(e.target.value);
+                        if (error) setError(null);
+                      }}
+                      autoComplete="off"
+                      aria-required="true"
+                      aria-describedby={error ? 'weather-error-msg' : undefined}
+                      data-testid="input-city-search"
+                    />
+                    <button
+                      type="submit"
+                      className="button-primary weather-submit-btn"
+                      disabled={loading}
+                      data-testid="button-search-weather"
+                    >
+                      {loading ? 'Searching...' : 'Search Weather ↗'}
+                    </button>
+                  </div>
+                </div>
+
+                {/* Quick Suggestion Chips */}
+                <div className="weather-suggestions">
+                  <span className="weather-suggestions-label">Popular cities:</span>
+                  <div className="weather-chips" role="group" aria-label="Quick search cities">
+                    {quickCities.map((city) => (
+                      <button
+                        key={city}
+                        type="button"
+                        className="weather-chip"
+                        onClick={() => handleQuickCity(city)}
+                        aria-label={`Search weather for ${city}`}
+                        data-testid={`chip-city-${city.toLowerCase().replace(/\s+/g, '-')}`}
+                      >
+                        {city}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </form>
+
+              {/* Error Message */}
+              {error && (
+                <div id="weather-error-msg" className="weather-error" role="alert" data-testid="weather-error-alert">
+                  <span className="weather-error-icon" aria-hidden="true">⚠️</span>
+                  <p>{error}</p>
+                </div>
+              )}
+
+              {/* Loading State */}
+              {loading && (
+                <div className="weather-loading" role="status" aria-live="polite" data-testid="weather-loading-state">
+                  <div className="weather-spinner" aria-hidden="true" />
+                  <p>Fetching real-time weather data...</p>
+                </div>
+              )}
+
+              {/* Weather Data Display */}
+              {weatherData && !loading && (
+                <div className="weather-result" data-testid="weather-result-card">
+                  <div className="weather-result-header">
+                    <div>
+                      <span className="eyebrow">Current Weather Conditions</span>
+                      <h2 className="weather-location-title" data-testid="weather-city-name">
+                        {weatherData.city}
+                        {weatherData.admin1 ? `, ${weatherData.admin1}` : ''}
+                        {weatherData.country ? ` (${weatherData.country})` : ''}
+                      </h2>
+                    </div>
+                    <div className="weather-coords" title="Geographic coordinates">
+                      <span className="eyebrow font-mono">
+                        {weatherData.latitude}° N, {weatherData.longitude}° E
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Primary Weather Metric Display */}
+                  <div className="weather-hero">
+                    <div className="weather-temp-wrap">
+                      <span className="weather-icon-badge" aria-hidden="true">
+                        {weatherData.weatherIcon}
+                      </span>
+                      <div>
+                        <div className="weather-temp-value" data-testid="weather-temperature">
+                          {Math.round(weatherData.temperature)}
+                          <span className="weather-temp-unit">°C</span>
+                        </div>
+                        <p className="weather-feels-like">
+                          Feels like <strong>{Math.round(weatherData.apparentTemperature)}°C</strong>
+                        </p>
+                      </div>
+                    </div>
+                    <div className="weather-condition-badge" data-testid="weather-condition">
+                      <span className="eyebrow">Condition</span>
+                      <p className="weather-condition-text">{weatherData.weatherLabel}</p>
+                    </div>
+                  </div>
+
+                  {/* Detailed Metric Cards Grid */}
+                  <div className="weather-metrics-grid">
+                    <div className="weather-metric-item" data-testid="weather-humidity-item">
+                      <span className="eyebrow">Relative Humidity</span>
+                      <div className="weather-metric-val" data-testid="weather-humidity">
+                        {weatherData.humidity}<span className="weather-metric-unit">%</span>
+                      </div>
+                      <span className="weather-metric-desc">
+                        {weatherData.humidity > 70 ? 'High moisture level' : weatherData.humidity < 35 ? 'Dry air conditions' : 'Comfortable humidity'}
+                      </span>
+                    </div>
+
+                    <div className="weather-metric-item" data-testid="weather-wind-item">
+                      <span className="eyebrow">Wind Speed &amp; Dir</span>
+                      <div className="weather-metric-val" data-testid="weather-wind-speed">
+                        {weatherData.windSpeed}<span className="weather-metric-unit"> km/h</span>
+                      </div>
+                      <span className="weather-metric-desc font-mono">
+                        {getWindDirection(weatherData.windDirection)} ({weatherData.windDirection}°)
+                      </span>
+                    </div>
+
+                    <div className="weather-metric-item" data-testid="weather-precipitation-item">
+                      <span className="eyebrow">Precipitation</span>
+                      <div className="weather-metric-val" data-testid="weather-precipitation">
+                        {weatherData.precipitation}<span className="weather-metric-unit"> mm</span>
+                      </div>
+                      <span className="weather-metric-desc">
+                        {weatherData.precipitation > 0 ? 'Active precipitation' : 'No current rainfall'}
+                      </span>
+                    </div>
+
+                    <div className="weather-metric-item" data-testid="weather-pressure-item">
+                      <span className="eyebrow">Surface Pressure</span>
+                      <div className="weather-metric-val" data-testid="weather-pressure">
+                        {Math.round(weatherData.surfacePressure)}<span className="weather-metric-unit"> hPa</span>
+                      </div>
+                      <span className="weather-metric-desc">
+                        {weatherData.surfacePressure < 1005 ? 'Low pressure system' : 'Stable atmospheric pressure'}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Source Attribution & Meta Info */}
+                  <div className="weather-footer-bar">
+                    <span>Data source: Open-Meteo REST API (Live)</span>
+                    <span className="font-mono text-xs">Timezone: {weatherData.timezone}</span>
+                  </div>
+                </div>
+              )}
+
+              {/* Initial Empty State */}
+              {!weatherData && !loading && !error && (
+                <div className="weather-empty" data-testid="weather-empty-state">
+                  <p className="weather-empty-title">Check the live forecast anywhere.</p>
+                  <p>
+                    Type a city name above or select one of the popular quick options to fetch real-time temperature, humidity, wind velocity, and weather conditions.
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+        </section>
+      </main>
+    </>
+  );
+}
+
 function Router() {
   return (
     <RoutedErrorBoundary>
@@ -810,6 +1220,8 @@ function Router() {
           <Route path="/todo/:rest*" component={TodoPage} />
           <Route path="/tasks" component={TodoPage} />
           <Route path="/tasks/:rest*" component={TodoPage} />
+          <Route path="/weather" component={WeatherPage} />
+          <Route path="/weather/:rest*" component={WeatherPage} />
           <Route path="/about" component={About} />
           <Route path="/about/:rest*" component={About} />
           <Route path="/contact" component={Contact} />
